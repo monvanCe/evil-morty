@@ -5,9 +5,9 @@ export const paddings = {
 };
 
 export const margins = {
-  small: 12,
-  medium: 16,
-  large: 20,
+  small: 6,
+  medium: 12,
+  large: 18,
 };
 
 export const fontSizes = {
