@@ -1,37 +1,52 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
+import { loadAppTheme } from '@/store/actions/appConfigActions';
+import { loadInitialEpisodes } from '@/store/actions/episodeActions';
+import { store, useAppSelector } from '@/store/store';
+import Theme, { themes } from '@/styles/theme';
+import { appTheme } from '@/utils/enums';
+
+import React from 'react';
+import { StatusBar } from 'react-native';
+import 'react-native-reanimated';
+import { Provider } from 'react-redux';
+
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+function RootLayout() {
+  const currentTheme = useAppSelector(state => state.appConfig.appTheme);
 
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
+  const colors = themes[currentTheme];
+
+  React.useEffect(() => {
+    async function load() {
+      await loadAppTheme();
+      await loadInitialEpisodes();
     }
-  }, [loaded]);
+    load().then(() => SplashScreen.hideAsync());
+  }, []);
 
-  if (!loaded) {
-    return null;
-  }
+  React.useEffect(() => {
+    requestAnimationFrame(() => {
+      StatusBar.setBarStyle(currentTheme === appTheme.Light ? 'dark-content' : 'light-content');
+    });
+  }, [currentTheme]);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <Theme.ThemeProvider theme={colors}>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
+        <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+        <Stack.Screen name='+not-found' />
       </Stack>
-    </ThemeProvider>
+    </Theme.ThemeProvider>
+  );
+}
+
+export default function ProviderWrapper() {
+  return (
+    <Provider store={store}>
+      <RootLayout />
+    </Provider>
   );
 }
