@@ -1,5 +1,5 @@
 import { horizontalScale, verticalScale } from '@/styles/metricEngine';
-import { borderRadius, borderWidths, paddings } from '@/styles/sizes';
+import { borderRadius, borderWidths, paddings, sizes } from '@/styles/sizes';
 import theme from '@/styles/theme';
 
 import { Text, TouchableOpacity, View } from 'react-native';
@@ -29,7 +29,7 @@ export default function Pagination({ currentPage, totalPages, onPress }: IPagina
           style={{
             borderWidth: borderWidths.small,
             borderRadius: borderRadius.small,
-            height: verticalScale(2 * paddings.large),
+            height: verticalScale(sizes.medium),
             aspectRatio: 1,
           }}
           animate={{

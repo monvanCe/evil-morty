@@ -10,6 +10,12 @@ export const margins = {
   large: 18,
 };
 
+export const sizes = {
+  small: 16,
+  medium: 32,
+  large: 48,
+};
+
 export const fontSizes = {
   small: 12,
   medium: 18,

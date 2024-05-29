@@ -5,13 +5,22 @@ import { horizontalScale, verticalScale } from '@/styles/metricEngine';
 import { paddings } from '@/styles/sizes';
 import { episodeStatus } from '@/utils/enums';
 
+import React from 'react';
 import { View } from 'react-native';
 
 import { FlashList } from '@shopify/flash-list';
 
-export default function HomeLayout() {
+export default function HomeContent() {
   const episode = useAppSelector(state => state.episode);
-  const { episodes, status } = episode;
+  const { episodes, status, searchTerm } = episode;
+
+  const filteredEpisodes = React.useMemo(() => {
+    return episodes.filter(
+      item =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.episode.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [episodes, searchTerm]);
 
   return (
     <>
@@ -25,10 +34,9 @@ export default function HomeLayout() {
         </>
       ) : (
         <FlashList
-          data={episodes}
+          data={filteredEpisodes}
           contentContainerStyle={{
-            padding: horizontalScale(paddings.small),
-            paddingBottom: verticalScale(2 * paddings.large + 2 * paddings.small),
+            paddingHorizontal: horizontalScale(paddings.small),
           }}
           estimatedItemSize={50}
           renderItem={({ item, index }) => <EpisodeItem item={item} index={index} />}

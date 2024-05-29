@@ -9,6 +9,7 @@ interface EpisodeState {
   currentPage: number | null;
   totalPages: number | null;
   status: episodeStatus | null;
+  searchTerm: string;
 }
 
 const initialState: EpisodeState = {
@@ -16,6 +17,7 @@ const initialState: EpisodeState = {
   currentPage: null,
   totalPages: null,
   status: null,
+  searchTerm: '',
 };
 
 export const episodeSlice = createSlice({
@@ -34,9 +36,13 @@ export const episodeSlice = createSlice({
     setStatus: (state, action) => {
       state.status = action.payload;
     },
+    setSearchTerm: (state, action) => {
+      state.searchTerm = action.payload;
+    },
   },
 });
 
-export const { setEpisodes, setCurrentPage, setTotalPages, setStatus } = episodeSlice.actions;
+export const { setEpisodes, setCurrentPage, setTotalPages, setStatus, setSearchTerm } =
+  episodeSlice.actions;
 
 export default episodeSlice.reducer;

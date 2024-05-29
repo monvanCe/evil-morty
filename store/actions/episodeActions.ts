@@ -1,7 +1,7 @@
 import service from '@/service';
 import { episodeStatus } from '@/utils/enums';
 
-import { setEpisodes, setStatus } from '../slices/episodeSlice';
+import { setEpisodes, setSearchTerm, setStatus } from '../slices/episodeSlice';
 import { setCurrentPage } from '../slices/episodeSlice';
 import { setTotalPages } from '../slices/episodeSlice';
 import { store } from '../store';
@@ -24,4 +24,9 @@ export const loadEpisodes = async (page: number) => {
   const episodes = await service.getEpisodes(page);
   dispatch(setEpisodes(episodes.results));
   dispatch(setStatus(episodeStatus.Success));
+};
+
+export const setEpisodeSearchTerm = async (searchTerm: string) => {
+  const dispatch = store.dispatch;
+  dispatch(setSearchTerm(searchTerm));
 };
