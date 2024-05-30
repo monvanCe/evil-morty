@@ -1,18 +1,20 @@
 import EpisodeItem from '@/components/EpisodeItem';
-import EpisodeSkeleton from '@/components/EpisodeSkeleton';
+import EpisodeSkeleton from '@/components/SkeletonItem';
+import { setContentPage } from '@/store/actions/appConfigActions';
+import { loadCharactersByIds } from '@/store/actions/characterActions';
 import { useAppSelector } from '@/store/store';
-import { horizontalScale, verticalScale } from '@/styles/metricEngine';
+import { horizontalScale } from '@/styles/metricEngine';
 import { paddings } from '@/styles/sizes';
-import { episodeStatus } from '@/utils/enums';
+import { status } from '@/utils/enums';
 
 import React from 'react';
 import { View } from 'react-native';
 
 import { FlashList } from '@shopify/flash-list';
 
-export default function HomeContent() {
+export default function EpisodesContent() {
   const episode = useAppSelector(state => state.episode);
-  const { episodes, status, searchTerm } = episode;
+  const { episodes, episodeStatus, searchTerm } = episode;
 
   const filteredEpisodes = React.useMemo(() => {
     return episodes.filter(
@@ -24,7 +26,7 @@ export default function HomeContent() {
 
   return (
     <>
-      {status === episodeStatus.Loading ? (
+      {episodeStatus === status.Loading ? (
         <>
           {Array.from({ length: 15 }, (_, index) => (
             <View key={index} style={{ padding: horizontalScale(paddings.small) }}>
@@ -39,7 +41,16 @@ export default function HomeContent() {
             paddingHorizontal: horizontalScale(paddings.small),
           }}
           estimatedItemSize={50}
-          renderItem={({ item, index }) => <EpisodeItem item={item} index={index} />}
+          renderItem={({ item, index }) => (
+            <EpisodeItem
+              item={item}
+              index={index}
+              onPress={(e: any) => {
+                loadCharactersByIds(episodes[index].characters.map(item => item.id));
+                setContentPage(1);
+              }}
+            />
+          )}
         />
       )}
     </>

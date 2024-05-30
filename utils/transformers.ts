@@ -5,6 +5,5 @@ export const episodeDataTransformer = (data: any) => {
     airDate: data.air_date,
     episode: data.episode,
     characters: data.characters,
-    url: data.url,
   };
 };

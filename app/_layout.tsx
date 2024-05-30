@@ -1,4 +1,5 @@
 import { loadAppTheme } from '@/store/actions/appConfigActions';
+import { loadFavoriteCharacters, loadInitialCharacters } from '@/store/actions/characterActions';
 import { loadInitialEpisodes } from '@/store/actions/episodeActions';
 import { store, useAppSelector } from '@/store/store';
 import Theme, { themes } from '@/styles/theme';
@@ -23,6 +24,8 @@ function RootLayout() {
     async function load() {
       await loadAppTheme();
       await loadInitialEpisodes();
+      await loadInitialCharacters();
+      await loadFavoriteCharacters();
     }
     load().then(() => SplashScreen.hideAsync());
   }, []);

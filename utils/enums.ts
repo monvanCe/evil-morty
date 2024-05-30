@@ -8,7 +8,7 @@ export enum storageKeys {
   FavoriteCharacters = 'favoriteCharacters',
 }
 
-export enum episodeStatus {
+export enum status {
   Success = 'success',
   Loading = 'loading',
   Error = 'error',

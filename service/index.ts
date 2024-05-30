@@ -1,29 +1,40 @@
-import endpoints from '@/constants/endpoints';
+import queries from '@/constants/queries';
 
-import { getRequest } from './api';
+import { graphqlRequest } from './api';
 
-export const getEpisodes = async (page: number = 1) => {
-  return await getRequest(endpoints.episodes(page));
+export const getEpisodes = async (page = 1) => {
+  const query = queries.episodes;
+  const variables = { page };
+  const response = await graphqlRequest(query, variables);
+  return response.data.episodes;
 };
 
 export const getEpisode = async (id: number) => {
-  return await getRequest(endpoints.episode(id));
+  const query = queries.episode;
+  const variables = { id };
+  const response = await graphqlRequest(query, variables);
+  return response.data.episode;
 };
 
-export const getCharacters = async (page: number = 1) => {
-  return await getRequest(endpoints.characters(page));
+export const getCharacters = async (page = 1) => {
+  const query = queries.characters;
+  const variables = { page };
+  const response = await graphqlRequest(query, variables);
+  return response.data.characters;
+};
+
+export const getCharactersByIds = async (ids: number[]) => {
+  const query = queries.charactersByIds;
+  const variables = { ids };
+  const response = await graphqlRequest(query, variables);
+  return response.data.charactersByIds;
 };
 
 export const getCharacter = async (id: number) => {
-  return await getRequest(endpoints.character(id));
-};
-
-export const getLocations = async (page: number = 1) => {
-  return await getRequest(endpoints.locations(page));
-};
-
-export const getLocation = async (id: number) => {
-  return await getRequest(endpoints.location(id));
+  const query = queries.character;
+  const variables = { id };
+  const response = await graphqlRequest(query, variables);
+  return response.data.character;
 };
 
 export default {
@@ -31,6 +42,5 @@ export default {
   getEpisode,
   getCharacters,
   getCharacter,
-  getLocations,
-  getLocation,
+  getCharactersByIds,
 };

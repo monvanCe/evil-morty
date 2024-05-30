@@ -1,4 +1,4 @@
-import { episodeStatus } from '@/utils/enums';
+import { status } from '@/utils/enums';
 
 import { createSlice } from '@reduxjs/toolkit';
 
@@ -8,7 +8,7 @@ interface EpisodeState {
   episodes: IEpisode[];
   currentPage: number | null;
   totalPages: number | null;
-  status: episodeStatus | null;
+  episodeStatus: status | null;
   searchTerm: string;
 }
 
@@ -16,7 +16,7 @@ const initialState: EpisodeState = {
   episodes: [],
   currentPage: null,
   totalPages: null,
-  status: null,
+  episodeStatus: null,
   searchTerm: '',
 };
 
@@ -33,8 +33,8 @@ export const episodeSlice = createSlice({
     setTotalPages: (state, action) => {
       state.totalPages = action.payload;
     },
-    setStatus: (state, action) => {
-      state.status = action.payload;
+    setEpisodeStatus: (state, action) => {
+      state.episodeStatus = action.payload;
     },
     setSearchTerm: (state, action) => {
       state.searchTerm = action.payload;
@@ -42,7 +42,7 @@ export const episodeSlice = createSlice({
   },
 });
 
-export const { setEpisodes, setCurrentPage, setTotalPages, setStatus, setSearchTerm } =
+export const { setEpisodes, setCurrentPage, setTotalPages, setEpisodeStatus, setSearchTerm } =
   episodeSlice.actions;
 
 export default episodeSlice.reducer;

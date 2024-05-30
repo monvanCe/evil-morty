@@ -8,10 +8,11 @@ import { TextInput, View } from 'react-native';
 import { MotiView } from 'moti';
 
 interface ITextInput {
-  state: (searchTerm: string) => Promise<void>;
+  searchTerm: string;
+  onChange: (text: string) => void;
 }
 
-export default function CustomTextInput({ state }: ITextInput) {
+export default function CustomTextInput({ onChange, searchTerm }: ITextInput) {
   const [isActive, setIsActive] = React.useState<boolean>(false);
   const colors = theme.useTheme();
 
@@ -43,10 +44,11 @@ export default function CustomTextInput({ state }: ITextInput) {
         selectionColor={colors.primary}
         placeholder='Search...'
         onChange={e => {
-          state(e.nativeEvent.text);
+          onChange(e.nativeEvent.text);
         }}
         onFocus={() => setIsActive(true)}
         onBlur={() => setIsActive(false)}
+        value={searchTerm}
       />
     </MotiView>
   );

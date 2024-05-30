@@ -5,10 +5,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface AppConfigState {
   appTheme: appTheme;
+  contentPage: number;
 }
 
 const initialState: AppConfigState = {
   appTheme: appTheme.Dark,
+  contentPage: 0,
 };
 
 export const appConfigSlice = createSlice({
@@ -19,9 +21,12 @@ export const appConfigSlice = createSlice({
       state.appTheme = action.payload;
       storage.setItem(storageKeys.AppTheme, action.payload);
     },
+    setPage: (state, action) => {
+      state.contentPage = action.payload;
+    },
   },
 });
 
-export const { setAppTheme } = appConfigSlice.actions;
+export const { setAppTheme, setPage } = appConfigSlice.actions;
 
 export default appConfigSlice.reducer;

@@ -1,15 +1,18 @@
+import AndroidSafeArea from '@/components/AndroidSafeArea';
+import IosSafeArea from '@/components/IosSafeArea';
 import theme from '@/styles/theme';
 
 import React from 'react';
-import { SafeAreaView } from 'react-native';
+import { Platform } from 'react-native';
 
 import { Tabs } from 'expo-router';
 
 export default function TabLayout() {
   const colors = theme.useTheme();
+
   return (
     <>
-      <SafeAreaView style={{ backgroundColor: colors.background }} />
+      <>{Platform.OS === 'ios' ? <IosSafeArea /> : <AndroidSafeArea />}</>
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: colors.primary,
@@ -28,9 +31,9 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name='profile'
+          name='favorites'
           options={{
-            title: 'Profile',
+            title: 'Favorites',
           }}
         />
       </Tabs>
