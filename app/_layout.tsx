@@ -10,14 +10,22 @@ import { StatusBar } from 'react-native';
 import 'react-native-reanimated';
 import { Provider } from 'react-redux';
 
+import * as Notifications from 'expo-notifications';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+});
 
 SplashScreen.preventAutoHideAsync();
 
 function RootLayout() {
   const currentTheme = useAppSelector(state => state.appConfig.appTheme);
-
   const colors = themes[currentTheme];
 
   React.useEffect(() => {

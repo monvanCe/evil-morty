@@ -35,7 +35,9 @@ export default function HomePageContent() {
         const index = Math.floor(e.nativeEvent.contentOffset.x / width);
         setContentPage(index);
       }}
-      onScrollToIndexFailed={() => {}}
+      onScrollToIndexFailed={() => {
+        console.log('onScrollToIndexFailed');
+      }}
     />
   );
 }

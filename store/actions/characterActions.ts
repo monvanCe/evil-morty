@@ -2,6 +2,8 @@ import service from '@/service';
 import { status, storageKeys } from '@/utils/enums';
 import storage from '@/utils/storage';
 
+import { scheduleNotificationAsync } from 'expo-notifications';
+
 import {
   setCharacterStatus,
   setCharacters,
@@ -11,6 +13,7 @@ import {
   setTotalPages,
 } from '../slices/characterSlice';
 import { store } from '../store';
+import { ICharacter } from '../types';
 
 export const loadInitialCharacters = async () => {
   const characters = await service.getCharacters();
@@ -60,16 +63,28 @@ export const loadCharactersByIds = async (ids: number[]) => {
   dispatch(setCharacterStatus(status.Success));
 };
 
-export const toggleFavoriteCharacter = async (id: number) => {
+export const toggleFavoriteCharacter = async (character: ICharacter) => {
   const state = store.getState();
-  const characters = state.character.favoriteCharacters;
-  const isFavorite = characters.includes(id);
+  const favoriteCharacters = state.character.favoriteCharacters;
+  const isFavorite = favoriteCharacters.some(c => c.id === character.id);
 
   if (isFavorite) {
-    const newFavoriteCharacters = characters.filter(characterId => characterId !== id);
+    const newFavoriteCharacters = favoriteCharacters.filter(c => c.id !== character.id);
     store.dispatch(setFavoriteCharacters(newFavoriteCharacters));
   } else {
-    const newFavoriteCharacters = [...characters, id];
-    store.dispatch(setFavoriteCharacters(newFavoriteCharacters));
+    if (favoriteCharacters.length === 10) {
+      await scheduleNotificationAsync({
+        content: {
+          title: '',
+          body: `Favori karakter ekleme sayısını aştınız. Başka bir karakteri favorilerden çıkarmalısınız.`,
+        },
+        trigger: {
+          seconds: 1,
+        },
+      });
+    } else {
+      const newFavoriteCharacters = [...favoriteCharacters, character];
+      store.dispatch(setFavoriteCharacters(newFavoriteCharacters));
+    }
   }
 };

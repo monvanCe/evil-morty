@@ -2,7 +2,7 @@ import { horizontalScale, verticalScale } from '@/styles/metricEngine';
 import { borderRadius, borderWidths, paddings, sizes } from '@/styles/sizes';
 import theme from '@/styles/theme';
 
-import { Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 import { MotiView } from 'moti';
 
@@ -16,12 +16,12 @@ export default function Pagination({ currentPage, totalPages, onPress }: IPagina
   const colors = theme.useTheme();
 
   return (
-    <View
+    <ScrollView
+      showsHorizontalScrollIndicator={false}
+      horizontal
       style={{
         flexDirection: 'row',
-        justifyContent: 'center',
-        gap: horizontalScale(paddings.small),
-        marginVertical: verticalScale(paddings.small),
+        alignSelf: 'center',
       }}>
       {Array.from({ length: totalPages ?? 1 }, (_, i) => i + 1).map((page, index) => (
         <MotiView
@@ -31,6 +31,8 @@ export default function Pagination({ currentPage, totalPages, onPress }: IPagina
             borderRadius: borderRadius.small,
             height: verticalScale(sizes.medium),
             aspectRatio: 1,
+            marginHorizontal: horizontalScale(paddings.small / 2),
+            marginVertical: 2,
           }}
           animate={{
             borderColor: currentPage === page ? colors.primary : colors.border,
@@ -54,6 +56,6 @@ export default function Pagination({ currentPage, totalPages, onPress }: IPagina
           </TouchableOpacity>
         </MotiView>
       ))}
-    </View>
+    </ScrollView>
   );
 }

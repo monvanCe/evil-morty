@@ -34,7 +34,9 @@ export default function CharacterItem({ item, index, onPress }: ICharacterItem) 
       style={[
         style.container,
         {
-          backgroundColor: favoriteCharacters.includes(item.id) ? colors.error : colors.background,
+          backgroundColor: favoriteCharacters.some(e => e.id === item.id)
+            ? colors.error
+            : colors.background,
         },
       ]}
       animate={{
@@ -43,7 +45,7 @@ export default function CharacterItem({ item, index, onPress }: ICharacterItem) 
         marginBottom: isPressed
           ? borderWidths.large - borderWidths.small + verticalScale(paddings.small)
           : verticalScale(paddings.small),
-        borderColor: isPressed ? colors.primary : colors.border,
+        borderColor: colors.border,
       }}
       transition={{
         type: 'timing',

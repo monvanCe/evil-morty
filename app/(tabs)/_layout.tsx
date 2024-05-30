@@ -5,14 +5,21 @@ import theme from '@/styles/theme';
 import React from 'react';
 import { Platform } from 'react-native';
 
+import { Ionicons } from '@expo/vector-icons';
+import * as Notifications from 'expo-notifications';
 import { Tabs } from 'expo-router';
 
 export default function TabLayout() {
   const colors = theme.useTheme();
+  const [permissionResponse, requestPermission] = Notifications.usePermissions();
+
+  React.useEffect(() => {
+    requestPermission().then(e => console.log(e));
+  }, []);
 
   return (
     <>
-      <>{Platform.OS === 'ios' ? <IosSafeArea /> : <AndroidSafeArea />}</>
+      {Platform.OS === 'ios' ? <IosSafeArea /> : <AndroidSafeArea />}
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: colors.primary,
@@ -28,12 +35,14 @@ export default function TabLayout() {
           name='index'
           options={{
             title: 'Home',
+            tabBarIcon: ({ color }) => <Ionicons name='home' size={24} color={color} />,
           }}
         />
         <Tabs.Screen
           name='favorites'
           options={{
             title: 'Favorites',
+            tabBarIcon: ({ color }) => <Ionicons name='heart' size={24} color={color} />,
           }}
         />
       </Tabs>

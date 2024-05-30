@@ -11,7 +11,7 @@ interface CharacterState {
   totalPages: number | null;
   characterStatus: status | null;
   searchTerm: string;
-  favoriteCharacters: number[];
+  favoriteCharacters: ICharacter[];
 }
 
 const initialState: CharacterState = {

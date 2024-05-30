@@ -48,7 +48,9 @@ export default function EpisodesContent() {
             <CharacterItem
               item={item}
               index={index}
-              onPress={e => toggleFavoriteCharacter(characters[index].id)}
+              onPress={e => {
+                toggleFavoriteCharacter(characters[index]);
+              }}
             />
           )}
         />
